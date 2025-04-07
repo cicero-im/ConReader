@@ -13,7 +13,6 @@
 # limitations under the License.
 
 import json
-import random
 import math
 import re
 import os
@@ -29,6 +28,7 @@ from transformers.models.bert.tokenization_bert import whitespace_tokenize
 from transformers.tokenization_utils_base import BatchEncoding, PreTrainedTokenizerBase, TruncationStrategy
 from transformers.utils import logging
 from transformers.data.processors.utils import DataProcessor
+import secrets
 
 
 # Store the tokenizers which insert 2 separators tokens
@@ -874,7 +874,7 @@ class Dataloader(object):
     def __iter__(self):
         batches = self.batches
         if self.is_training:
-            random.shuffle(batches)
+            secrets.SystemRandom().shuffle(batches)
         for batch in batches:
             # queries_features = [x[0] for x in batch]
             contracts_features = batch

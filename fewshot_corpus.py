@@ -2,9 +2,10 @@ import json
 import argparse
 import os
 import shutil
-import random
 import re
-random.seed(33)
+import secrets
+
+secrets.SystemRandom().seed(33)
 def sample_train_CCE(args):
     train_f = os.path.join(args.indir,"train" + ".json")
     all_data = json.load(open(train_f, encoding="utf-8"))
@@ -22,7 +23,7 @@ def sample_train_CCE(args):
     example_count = len(all_data['data'])
 
     sample_index = list(range(example_count))
-    random.shuffle(sample_index)
+    secrets.SystemRandom().shuffle(sample_index)
     if args.fewshot > 1:
         fewshot_number = int(args.fewshot)
     else:

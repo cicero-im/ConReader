@@ -14,13 +14,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """ Finetuning the library models for question-answering on SQuAD (DistilBERT, Bert, XLM, XLNet)."""
+import secrets
+
 """Adapted from the HuggingFace SQuAD finetuning script for CUAD."""
 
 import argparse
 import glob
 import logging
 import os
-import random
 import timeit
 import transformers
 from transformers import (
@@ -58,7 +59,7 @@ MODEL_TYPES = tuple(conf.model_type for conf in MODEL_CONFIG_CLASSES)
 
 
 def set_seed(args):
-    random.seed(args.seed)
+    secrets.SystemRandom().seed(args.seed)
     np.random.seed(args.seed)
     torch.manual_seed(args.seed)
     if args.n_gpu > 0:
@@ -90,7 +91,7 @@ def convert_examples_to_CD(examples, is_training):
         pair_data = []
         while i <= 100:
             i += 1
-            sample = random.sample(item, min(5,len(item)))
+            sample = secrets.SystemRandom().sample(item, min(5,len(item)))
             seeds = sample[:-1]
             target = sample[-1]
             if len(seeds) == 0:
